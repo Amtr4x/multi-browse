@@ -1,4 +1,4 @@
-# Project Title
+# Multi-Browse Tool
 
 Tool to open multiple browser tabs from a **Google** query. Just ask and get the most relevant results offered by **Google**.
 
@@ -23,7 +23,7 @@ Use your **Python** interpreter to avoid missing module errors.
 ### Example
 
 ```bash
-python3 multi_browse.py -q "How to become software engineer in two weeks" -tl 3
+python3 multi_browse.py "How to become software engineer in two weeks" -tl 3
 ```
 
 ### Usage
@@ -31,7 +31,10 @@ python3 multi_browse.py -q "How to become software engineer in two weeks" -tl 3
 ```plaintext
 Available options:
 
--h  - Display the help menu
--tl - Tabs limit. This is the amount of results you want to open (max 5 to avoid system crashes).
--q  - The query you want to do. If your query not contains spaces you can avoid using the "double quotes"
+positional arguments:
+  query       The Google search query you want to perform.
+
+options:
+  -h, --help  show this help message and exit
+  -tl int     Limit the maximum amount of tabs to be opened. Default = 3
 ```
