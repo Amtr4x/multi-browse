@@ -5,6 +5,12 @@ Open multiple browser tabs displaying results of a Google Search query
 """
 
 import argparse
+import requests
+import sys
+
+import bs4
+from bs4 import ResultSet
+from bs4 import Tag
 
 
 def main():
@@ -27,6 +33,37 @@ def main():
     )
 
     args = parser.parse_args()
+
+
+def obtain_links(link: str) -> list[str]:
+    """This function will parse the html and obtain every link
+    that appear in the page you provide.
+
+    Args:
+        link (str): url of the resource you want to visit
+
+    Returns:
+        list[str]: a list of the links found in the page
+    """
+    links: list[str] = []
+
+    try:
+        page_request = requests.get(link)
+        page_request.raise_for_status()
+        page_content = bs4.BeautifulSoup(page_request.text, features="html.parser")
+    except Exception as err:
+        print(f"Failed to get related links:\n{err}")
+        sys.exit(1)
+
+    anchor_elements: ResultSet[Tag] = page_content.select("a[data-ved]")
+
+    # get every href attribute value of the anchor links
+    for elem in anchor_elements:
+        href: str = str(elem.get("href"))[7:]
+        if href.startswith("https://"):
+            links.append(href)
+
+    return links
 
 
 if __name__ == "__main__":
