@@ -35,6 +35,9 @@ def main():
     )
 
     args = parser.parse_args()
+    query = args.query
+    tabs_limit = args.tl
+    open_browser_tabs(query, tabs_limit)
 
 
 def open_browser_tabs(query: str, tabs_limit: int = 3):
