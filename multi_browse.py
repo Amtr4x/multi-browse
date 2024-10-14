@@ -5,6 +5,8 @@ Open multiple browser tabs displaying results of a Google Search query
 """
 
 import argparse
+import time
+import webbrowser
 import requests
 import sys
 
@@ -33,6 +35,26 @@ def main():
     )
 
     args = parser.parse_args()
+
+
+def open_browser_tabs(query: str, tabs_limit: int = 3):
+    """Open a new tab for every obtained result for the query.
+
+    Args:
+        query (str): Google search query to do.
+        tabs_limit (int, optional): The maximum amount of tabs will be opened. Defaults to 3.
+    """
+    link: str = f"https://www.google.com/search?q={query}"
+    results_links: list[str] = obtain_links(link)
+    tabs_opened: int = 0
+
+    for result in results_links:
+        webbrowser.open_new_tab(result)
+        tabs_opened += 1
+        if tabs_opened >= tabs_limit:
+            break
+        # this is to avoid performance issues
+        time.sleep(1)
 
 
 def obtain_links(link: str) -> list[str]:
